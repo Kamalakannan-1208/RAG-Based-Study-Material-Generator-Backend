@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException, Form
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 import uvicorn
 from dotenv import load_dotenv
@@ -30,6 +31,15 @@ app = FastAPI(
     title="RAG Study Material Generator",
     description="Upload a PDF/DOCX syllabus, generate topics, query against knowledge base, and export study material as PDF.",
     version="1.0.0",
+)
+
+# Configure CORS to allow frontend requests
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, replace with specific frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 doc_processor = DocumentProcessor()
